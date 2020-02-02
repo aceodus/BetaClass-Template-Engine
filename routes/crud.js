@@ -7,7 +7,7 @@ const objectData = {
 }
 
 // read object data
-router.get('/', (req, res, next) => {
+router.get('gi/', (req, res, next) => {
     res.send(JSON.stringify(objectData));
 });
 
@@ -35,5 +35,50 @@ router.put('/:id', (req, res, next) => {
 
     res.send(objectData)
 });
+
+let arrayData = [
+    {
+        id: 1,
+        todo: "Mengerjakan tugas"
+    },
+    {
+        id: 2,
+        todo: "Membaca buku"
+    }
+]
+
+router.get('/array', (req, res, next) => {
+    res.send(arrayData)
+})
+
+router.get('/array/:id', async (req, res, next) => {
+
+    const row = arrayData.find(arr => arr.id == req.params.id)
+    
+    res.send(row);
+})
+
+router.post('/array', (req, res, next) => {
+    let bodyData = {
+        id: arrayData.length + 1,
+        todo: req.body.todo
+    }
+
+    arrayData.push(bodyData);
+
+    res.send(arrayData);
+})
+
+router.delete('/array/:id', (req, res, next) => {
+    arrayData.splice(req.params.id,1);
+
+    res.send(arrayData);
+})
+
+router.put('/array/:id', (req, res, next) => {
+    arrayData[req.params.id].todo = req.body.todo
+
+    res.send(arrayData);
+})
 
 module.exports = router;
